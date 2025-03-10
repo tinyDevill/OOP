@@ -68,6 +68,7 @@ sprout = Robot("Sprout", 200, 22, 15, 24)
 rico = Robot("Rico", 150, 27, 14, 26)
 hank = Robot("Hank", 280, 16, 23, 16)
 barley = Robot("Barley", 235, 24, 14, 20)
+winner = None
 i = 1
 
 print(f"{'=' * 15} Welcome to Robots Duel {'=' * 15}")
@@ -110,14 +111,27 @@ while fighter1.hp > 0 and fighter2.hp > 0:
 
     if action1 == 3 and action2 == 3:
         print("Both robots have gave up")
-        break
     elif action1 == 3 and action2 != 3:
         print(f"{fighter1.name} has surrendered")
-        break
+        winner = fighter2
+        which_is_winner = "Fighter 2"
     elif action1 != 3 and action2 == 3:
         print(f"{fighter2.name} has surrendered")
-        break
+        winner = fighter1
+        which_is_winner = "Fighter 1"
     else:
         game.action(action1, action2)
+
+    if fighter1.hp == 0:
+        winner = fighter2
+        which_is_winner = "Fighter 2"
+    elif fighter2.hp == 0:
+        winner = fighter1
+        which_is_winner = "Fighter 1"
+
+    if winner != None:
+        print(f"The winner is {which_is_winner}, {winner.name}")
     
+    if action1 == 3 and action2 == 3 or winner != None:
+        break
     print("\n")
