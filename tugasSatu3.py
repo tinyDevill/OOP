@@ -1,6 +1,6 @@
 with open('Me.txt', 'x') as f:
-    f.write(input("Masukkan nama: "))
+    f.write("Nama: " + input("Masukkan nama: "))
     f.write("\n")
-    f.write(input("Masukkan Nim : "))
+    f.write("NIM : " + input("Masukkan Nim : "))
     f.write("\n")
-    f.write(input("Masukkan Resolusi di Tahun ini: "))
+    f.write("Resolusi Tahun ini: " + input("Masukkan Resolusi di Tahun ini: "))
