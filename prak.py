@@ -120,7 +120,9 @@ def delete_dict():
                     widget.destroy()
 
             show_buttons_at_start()
+            desc_box.config(state = "normal")
             desc_box.delete("1.0", tk.END)
+            desc_box.config(state = "disabled")
             choosen_button = None
         else:
             None
