@@ -33,17 +33,19 @@ def make_button(title, description, date):
     button.config(width = 25, height = 2)
 
 def show_description(description, desc_box, title):
+    desc_box.config(state = "normal")
     global choosen_button
     choosen_button = title
 
     desc_box.delete("1.0", tk.END)
     desc_box.insert(tk.END, description)
+    desc_box.config(state = "disabled")
 
 def save_data(the_window, content):
     title = input_title.get().upper()
     description = content.get("1.0", tk.END).strip()
     
-    if title and description:
+    if title != "" and description != "":
         new_entry = {
             "title": title,
             "description": description,
@@ -69,10 +71,13 @@ def save_data(the_window, content):
             error_text = tk.Label(error_message, text = f"Error: {str(e)}", font = ("Cascadia Code", 9), bg = '#213448', foreground = '#ECEFCA')
             error_text.pack(side = "top", pady = 10, padx = 10)
 
-    make_button(title, description, new_entry["date"])
-    input_title.delete(0, tk.END)
-    content.delete("1.0", tk.END)
-    the_window.after(0, the_window.destroy())
+        make_button(title, description, new_entry["date"])
+        input_title.delete(0, tk.END)
+        content.delete("1.0", tk.END)
+        the_window.after(0, the_window.destroy())
+
+    else:
+        messagebox.showerror("Error", "Judul ataupun deskripsi tidak boleh kosong!")
 
 def input_description():
     desc_window = tk.Toplevel(window, bg = '#213448')
@@ -98,26 +103,27 @@ def input_description():
 
 def delete_dict():
     global choosen_button
-    if choosen_button:
-        global tombol_terpilih
-        tombol_terpilih = None
-        with open("savenote.json", "r") as file:
-            data = json.load(file)
+    if messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin menghapus catatan ini?"):
+        if choosen_button:
+            global tombol_terpilih
+            tombol_terpilih = None
+            with open("savenote.json", "r") as file:
+                data = json.load(file)
         
-        data = [entry for entry in data if entry["title"] != choosen_button]
+            data = [entry for entry in data if entry["title"] != choosen_button]
 
-        with open("savenote.json", "w") as file:
-            json.dump(data, file, indent = 4)
+            with open("savenote.json", "w") as file:
+                json.dump(data, file, indent = 4)
 
-        for widget in bleft_frame.winfo_children():
-            if isinstance(widget, tk.Button):
-                widget.destroy()
+            for widget in bleft_frame.winfo_children():
+                if isinstance(widget, tk.Button):
+                    widget.destroy()
 
-        show_buttons_at_start()
-        desc_box.delete("1.0", tk.END)
-        choosen_button = None
-    else:
-        None
+            show_buttons_at_start()
+            desc_box.delete("1.0", tk.END)
+            choosen_button = None
+        else:
+            None
 
 def save_edit(data, index, edit_window, edit_box, edit_desc_box):
     edited_title = edit_box.get("1.0", tk.END).strip()
