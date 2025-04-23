@@ -187,6 +187,10 @@ def edit_dict():
         save_button.grid(row = 2, column = 1, padx = (5, 10), pady = (10, 5), sticky = "e")
         save_button.config(width = 15)
 
+        desc_box.config(state = "normal")
+        desc_box.delete("1.0", tk.END)
+        desc_box.config(state = "disabled")
+
 
 window = tk.Tk()
 window.title("Catatan Harian")
